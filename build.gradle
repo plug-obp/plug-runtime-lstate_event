@@ -1,0 +1,11 @@
+dependencies {
+   compile group: 'com.fasterxml.jackson.core', name:'jackson-databind', version:'2.7.2'
+   compile group: 'fr.ensta-bretagne', name: 'plug-core', version: '+'
+   compile group: 'fr.ensta-bretagne', name: 'LPropositionalLogic', version: '+'
+   compile group: 'fr.ensta-bretagne', name: 'LTL', version: '+'
+   compile group: 'fr.ensta-bretagne', name: 'plug-runtime-buchikripke', version: '+'
+}
+
+project.ext["ideaGroupName"]="plug/languages"
+
+apply plugin: 'java-library-distribution'

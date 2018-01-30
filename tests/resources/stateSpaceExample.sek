@@ -1,0 +1,15 @@
+3 3 3 2
+- clock-names
+clk1 clk2 clk3
+- variable-names
+v1 v2
+- configurations
+0 0 0 0
+1 1 1 1
+2 2 1 2
+- initial
+0
+- transitions
+0 0 1 1
+1 2
+2 2 0

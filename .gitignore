@@ -1,0 +1,6 @@
+.settings
+bin
+.classpath
+.project
+*.tgf
+*.iml

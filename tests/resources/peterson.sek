@@ -1,0 +1,35 @@
+10 16 0 5
+- clock-names
+
+- variable-names
+p1.flag p2.flag turn p1.state p2.state
+- configurations
+0 0 0 0 0 0
+1 1 0 1 1 0
+2 0 1 0 0 1
+3 1 0 1 2 0
+4 1 1 0 1 1
+5 1 1 1 1 1
+6 0 1 0 0 2
+7 0 0 1 0 0
+8 1 1 0 2 1
+9 1 1 1 1 2
+- initial
+0
+- transitions
+0 1
+0 2
+1 3
+1 4
+2 5
+2 6
+3 7
+3 8
+4 8
+5 9
+6 9
+6 0
+7 2
+7 1
+8 2
+9 1

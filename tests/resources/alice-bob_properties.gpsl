@@ -1,0 +1,23 @@
+//deadlock free
+deadlockfree
+
+aliceInCS = |aliceState == 2|
+bobInCS = |bobState == 3|
+
+//mutual exclusion
+mutualExclusion = !(aliceInCS && bobInCS)
+
+//if one sets a flag eventually it gets to the critical section
+fair = let
+	aliceGetsIn = [] (|aliceFlag == 1| => <> aliceInCS),
+	bobGetsIn = [] (|bobFlag == 1| => <> bobInCS)
+in aliceGetsIn && bobGetsIn
+
+//if one does not set the flag it does not get in the critical section
+idling = let
+	aliceIdle = ([] |aliceFlag == 0|) => ([] !aliceInCS),
+	bobIdle   = ([] |bobFlag == 0|) => ([] !bobInCS)
+in aliceIdle || bobIdle
+
+//each process can enter the critical section infinitely often
+often = [] <> (aliceInCS || bobInCS)
