@@ -273,13 +273,9 @@ public class StateEventRuntimeTest {
     private void verifyLTL(String fileName, String ltl, boolean hasAcceptanceCycle, int expectedSize, String tgfPath) throws AcceptanceCycleDetectedException {
         ILanguageRuntime kripkeRuntime = load(fileName);
         BuchiDeclaration buchiAutomaton = getBuchiDeclaration(ltl);
-        plug.language.buchi.runtime.BuchiRuntime buchiRuntime = new plug.language.buchi.runtime.BuchiRuntime();
+        plug.language.buchi.runtime.BuchiRuntime buchiRuntime = new plug.language.buchi.runtime.BuchiRuntime(buchiAutomaton);
 
-        buchiRuntime.buchiAutomaton = buchiAutomaton;
-
-        KripkeBuchiProductSemantics kbProductSemantics = new KripkeBuchiProductSemantics();
-        kbProductSemantics.kripkeRuntime = kripkeRuntime;
-        kbProductSemantics.buchiRuntime = buchiRuntime;
+        KripkeBuchiProductSemantics kbProductSemantics = new KripkeBuchiProductSemantics(kripkeRuntime, module, buchiRuntime);
 
         BuchiGaiserSchwoon verifier = new BuchiGaiserSchwoon();
         verifier.setRuntime(kbProductSemantics);
