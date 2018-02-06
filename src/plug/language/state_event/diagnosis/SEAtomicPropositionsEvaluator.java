@@ -39,8 +39,11 @@ public class SEAtomicPropositionsEvaluator implements IAtomicPropositionsEvaluat
         return condition;
     }
 
+    //TODO: this should probably have source, target, transition
+    //public boolean[] getAtomicPropositionValuations(IConfiguration source, IConfiguration target, Object transition);
+    
     @Override
-    public boolean[] getAtomicPropositionValuations(IConfiguration source, IConfiguration target, Object transition) {
+    public boolean[] getAtomicPropositionValuations(IConfiguration target) {
         StateEventConfiguration seTarget = (StateEventConfiguration)target;
         boolean valuations[] = new boolean[testers.length];
         for (int i = 0; i<testers.length; i++) {
