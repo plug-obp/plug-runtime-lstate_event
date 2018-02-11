@@ -1,9 +1,20 @@
+buildscript {
+   repositories {
+      maven { url "http://mocs-artefacts.ensta-bretagne.fr/plug-repo/" }
+   }
+   dependencies {
+      classpath group: 'fr.ensta-bretagne', name: 'plug-plugin', version: '+'
+   }
+}
+
+apply plugin: 'plug.plugin'
+
 dependencies {
    compile group: 'com.fasterxml.jackson.core', name:'jackson-databind', version:'2.7.2'
-   compile group: 'fr.ensta-bretagne', name: 'plug-core', version: '+'
-   compile group: 'fr.ensta-bretagne', name: 'LPropositionalLogic', version: '+'
-   compile group: 'fr.ensta-bretagne', name: 'LTL', version: '+'
-   compile group: 'fr.ensta-bretagne', name: 'plug-runtime-buchikripke', version: '+'
+   compile group: 'fr.ensta-bretagne', name: 'plug-core', version: plug.version
+   compile group: 'fr.ensta-bretagne', name: 'LPropositionalLogic', version: plug.version
+   compile group: 'fr.ensta-bretagne', name: 'LTL', version: plug.version
+   compile group: 'fr.ensta-bretagne', name: 'plug-runtime-buchikripke', version: plug.version
 }
 
 project.ext["ideaGroupName"]="plug/languages"

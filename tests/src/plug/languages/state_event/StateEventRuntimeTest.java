@@ -8,6 +8,8 @@ import plug.core.ILanguageRuntime;
 import plug.core.IRuntimeView;
 import plug.events.ExecutionEndedEvent;
 import plug.explorer.*;
+import plug.explorer.buchi.AcceptanceCycleDetectedException;
+import plug.explorer.buchi.nested_dfs.BA_GaiserSchwoon_Iterative;
 import plug.language.buchi.runtime.BuchiRuntime;
 import plug.language.buchikripke.runtime.KripkeBuchiProductSemantics;
 import plug.language.state_event.StateEventModule;
@@ -277,11 +279,11 @@ public class StateEventRuntimeTest {
 
         KripkeBuchiProductSemantics kbProductSemantics = new KripkeBuchiProductSemantics(kripkeRuntime, module, buchiRuntime);
 
-        BuchiGaiserSchwoon verifier = new BuchiGaiserSchwoon();
+        BA_GaiserSchwoon_Iterative verifier = new BA_GaiserSchwoon_Iterative();
         verifier.setRuntime(kbProductSemantics);
 
         try {
-            verifier.verify();
+            verifier.execute();
         } catch (AcceptanceCycleDetectedException e) {
             assertThat(true, is(hasAcceptanceCycle));
             return;
@@ -377,7 +379,7 @@ public class StateEventRuntimeTest {
             deadLockFree[0] = false;
         });
 
-        explorer.explore();
+        explorer.execute();
 
         return deadLockFree[0];
     }
@@ -405,7 +407,7 @@ public class StateEventRuntimeTest {
             ret[0] = false;
         });
 
-        explorer.explore();
+        explorer.execute();
 
         Assert.assertEquals(expectedStateCount, explorer.stateSpaceManager.size());
         Assert.assertEquals(expectedTransitionCount, explorer.stateSpaceManager.transitionCount());
@@ -416,7 +418,7 @@ public class StateEventRuntimeTest {
     public AbstractExplorer explore(ILanguageRuntime runtime, int expectedStateCount, int expectedTransitionCount) {
         BFSExplorer explorer = (BFSExplorer) createExecutionController(BFSExplorer.class, runtime);
         explorer.stateSpaceManager.fullTransitionStorage();
-        explorer.explore();
+        explorer.execute();
 
         Assert.assertEquals(expectedStateCount, explorer.stateSpaceManager.size());
         Assert.assertEquals(expectedTransitionCount, explorer.stateSpaceManager.transitionCount());

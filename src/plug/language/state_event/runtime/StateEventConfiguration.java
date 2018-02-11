@@ -1,10 +1,11 @@
 package plug.language.state_event.runtime;
 
 import plug.core.IConfiguration;
+import plug.core.defaults.DefaultConfiguration;
 
 import java.util.Arrays;
 
-public class StateEventConfiguration implements IConfiguration<StateEventConfiguration> {
+public class StateEventConfiguration extends DefaultConfiguration<StateEventConfiguration> {
 	int id; //the state id is here only to simplify the getFireableTransitions
 	public int[] values;
 	
