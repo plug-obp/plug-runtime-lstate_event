@@ -4,3 +4,4 @@ bin
 .project
 *.tgf
 *.iml
+out
