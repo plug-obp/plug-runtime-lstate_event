@@ -3,7 +3,6 @@ package plug.language.state_event;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import plug.core.IRuntimeView;
 import plug.core.view.ConfigurationItem;
 import plug.language.state_event.model.StateEventTransition;
@@ -24,16 +23,14 @@ public class StateEventRuntimeView implements IRuntimeView<StateEventConfigurati
     public StateEventRuntime getRuntime() {
         return runtime;
     }
-    
-    @Override
-	public ConfigurationItem getConfigurationItem(StateEventConfiguration value) {
+
+	@Override
+	public List<ConfigurationItem> getConfigurationItems(StateEventConfiguration value) {
 		List<ConfigurationItem> variableList = new ArrayList<>();
-		
         for (Map.Entry<String, Integer> entry : runtime.program.variables.entrySet()) {
         		variableList.add(new ConfigurationItem("variable", entry.getKey() + " = " + value.values[entry.getValue()], null, null));
         }
-		
-		return new ConfigurationItem("explicit", "explicit", null, variableList);
+		return variableList;
 	}
 
 	@Override

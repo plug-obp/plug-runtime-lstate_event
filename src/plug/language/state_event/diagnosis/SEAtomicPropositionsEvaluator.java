@@ -1,11 +1,10 @@
 package plug.language.state_event.diagnosis;
 
+import java.util.StringTokenizer;
 import plug.core.IAtomicPropositionsEvaluator;
 import plug.core.IConfiguration;
 import plug.language.state_event.model.StateEventModel;
 import plug.language.state_event.runtime.StateEventConfiguration;
-
-import java.util.StringTokenizer;
 
 public class SEAtomicPropositionsEvaluator implements IAtomicPropositionsEvaluator {
     String atomicPropositions[];
@@ -18,15 +17,15 @@ public class SEAtomicPropositionsEvaluator implements IAtomicPropositionsEvaluat
     }
 
     @Override
-    public void registerAtomicPropositions(String[] atomicPropositions) {
-
-
+    public int[] registerAtomicPropositions(String[] atomicPropositions) {
+        int[] result = new int[atomicPropositions.length];
         this.atomicPropositions = atomicPropositions;
         testers = new EqualityCondition[atomicPropositions.length];
         for (int i = 0; i<testers.length; i++) {
-
             testers[i] = parse(atomicPropositions[i]);
+            result[i] = i;
         }
+        return result;
     }
 
     EqualityCondition parse(String code) {

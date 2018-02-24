@@ -1,7 +1,8 @@
 package plug.language.state_event;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.net.URI;
+import java.util.Map;
 import plug.core.ILanguageLoader;
 import plug.core.ILanguageRuntime;
 import plug.language.state_event.diagnosis.SEAtomicPropositionsEvaluator;
@@ -9,16 +10,11 @@ import plug.language.state_event.model.StateEventDenseReader;
 import plug.language.state_event.model.StateEventModel;
 import plug.language.state_event.runtime.StateEventRuntime;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.Map;
-
 /**
  * @author Ciprian Teodorov (ciprian.teodorov@ensta-bretagne.fr)
  *         Created on 10/03/16.
  */
-public class StateEventLoader implements ILanguageLoader {
+public class StateEventLoader implements ILanguageLoader<StateEventRuntime> {
 
     //TODO: these functions are development helpers
     @Deprecated
@@ -31,7 +27,7 @@ public class StateEventLoader implements ILanguageLoader {
         return (new StateEventLoader()).loadModel(modelFile);
     }
 
-    public ILanguageRuntime _loadRuntime(File modelFile) {
+    public StateEventRuntime _loadRuntime(File modelFile) {
         StateEventRuntime runtime = new StateEventRuntime();
         runtime.program = loadModel(modelFile);
         runtime.atomicPropositionsEvaluator = new SEAtomicPropositionsEvaluator(runtime.program);
@@ -44,7 +40,7 @@ public class StateEventLoader implements ILanguageLoader {
     }
 
     @Override
-    public ILanguageRuntime getRuntime(URI modelURI, Map<String, Object> options) {
+    public StateEventRuntime getRuntime(URI modelURI, Map<String, Object> options) {
         return _loadRuntime(new File(modelURI));
     }
 }

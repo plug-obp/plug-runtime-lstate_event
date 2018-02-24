@@ -1,16 +1,15 @@
 package plug.languages.state_event;
 
+import java.io.PrintWriter;
 import org.junit.Assert;
 import org.junit.Test;
-import plug.composite.CompositeConfiguration;
 import plug.core.ILanguageModule;
 import plug.core.ILanguageRuntime;
 import plug.core.IRuntimeView;
-import plug.events.ExecutionEndedEvent;
-import plug.explorer.*;
+import plug.explorer.AbstractExplorer;
+import plug.explorer.BFSExplorer;
 import plug.explorer.buchi.AcceptanceCycleDetectedException;
 import plug.explorer.buchi.nested_dfs.BA_GaiserSchwoon_Iterative;
-import plug.language.buchi.runtime.BuchiRuntime;
 import plug.language.buchikripke.runtime.KripkeBuchiProductSemantics;
 import plug.language.state_event.StateEventModule;
 import plug.language.state_event.diagnosis.AtomEvaluator;
@@ -18,7 +17,6 @@ import plug.language.state_event.diagnosis.Predicate;
 import plug.language.state_event.runtime.StateEventConfiguration;
 import plug.language.state_event.runtime.StateEventRuntime;
 import plug.statespace.SimpleStateSpaceManager;
-import announce4j.Announcer;
 import plug.verifiers.deadlock.DeadlockVerifier;
 import plug.verifiers.deadlock.FinalStateDetected;
 import plug.verifiers.predicates.PredicateVerifier;
@@ -31,12 +29,11 @@ import properties.PropositionalLogic.PropositionalLogicModel.DeclarationBlock;
 import properties.PropositionalLogic.PropositionalLogicModel.Expression;
 import properties.PropositionalLogic.interpreter.Evaluator;
 
-import java.io.PrintWriter;
-import java.util.function.BiConsumer;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Ciprian Teodorov (ciprian.teodorov@ensta-bretagne.fr)
@@ -279,8 +276,7 @@ public class StateEventRuntimeTest {
 
         KripkeBuchiProductSemantics kbProductSemantics = new KripkeBuchiProductSemantics(kripkeRuntime, module, buchiRuntime);
 
-        BA_GaiserSchwoon_Iterative verifier = new BA_GaiserSchwoon_Iterative();
-        verifier.setRuntime(kbProductSemantics);
+        BA_GaiserSchwoon_Iterative verifier = new BA_GaiserSchwoon_Iterative(kbProductSemantics);
 
         try {
             verifier.execute();
@@ -369,7 +365,9 @@ public class StateEventRuntimeTest {
 
 
     public boolean deadlockfree(ILanguageRuntime runtime, int expectedStateCount, int expectedTransitionCount) {
-        BFSExplorer explorer = (BFSExplorer) createExecutionController(BFSExplorer.class, runtime);
+        BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager());
+        explorer.stateSpaceManager.countingTransitionStorage();
+
 
         DeadlockVerifier dV = new DeadlockVerifier(explorer.getAnnouncer());
 
@@ -385,7 +383,9 @@ public class StateEventRuntimeTest {
     }
 
     public boolean verify(ILanguageRuntime runtime, String predicate, int expectedStateCount, int expectedTransitionCount) {
-        BFSExplorer explorer = (BFSExplorer) createExecutionController(BFSExplorer.class, runtime);
+        BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager());
+        explorer.stateSpaceManager.countingTransitionStorage();
+
 
         PredicateVerifier<StateEventConfiguration> pV = new PredicateVerifier<>(explorer.getAnnouncer());
 
@@ -416,33 +416,12 @@ public class StateEventRuntimeTest {
     }
 
     public AbstractExplorer explore(ILanguageRuntime runtime, int expectedStateCount, int expectedTransitionCount) {
-        BFSExplorer explorer = (BFSExplorer) createExecutionController(BFSExplorer.class, runtime);
-        explorer.stateSpaceManager.fullTransitionStorage();
+        BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager());
+        explorer.stateSpaceManager.countingTransitionStorage();
         explorer.execute();
 
         Assert.assertEquals(expectedStateCount, explorer.stateSpaceManager.size());
         Assert.assertEquals(expectedTransitionCount, explorer.stateSpaceManager.transitionCount());
-
-        return explorer;
-    }
-
-    public AbstractExplorer createExecutionController(java.lang.Class<? extends AbstractExplorer> executionController, ILanguageRuntime runtime) {
-        //create a BFSExplorer
-        AbstractExplorer explorer;
-        try {
-            explorer = executionController.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
-
-        //set the program in the explorer
-        explorer.setRuntime(runtime);
-
-        //set the state-space manager
-        explorer.stateSpaceManager = new SimpleStateSpaceManager();
-        explorer.stateSpaceManager.countingTransitionStorage();
 
         return explorer;
     }
