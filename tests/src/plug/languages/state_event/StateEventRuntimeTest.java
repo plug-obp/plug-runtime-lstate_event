@@ -6,9 +6,9 @@ import org.junit.Test;
 import plug.core.ILanguageModule;
 import plug.core.ILanguageRuntime;
 import plug.core.IRuntimeView;
+import plug.events.PropertyEvent;
 import plug.explorer.AbstractExplorer;
 import plug.explorer.BFSExplorer;
-import plug.explorer.buchi.AcceptanceCycleDetectedException;
 import plug.explorer.buchi.nested_dfs.BA_GaiserSchwoon_Iterative;
 import plug.language.buchikripke.runtime.KripkeBuchiProductSemantics;
 import plug.language.state_event.StateEventModule;
@@ -269,7 +269,7 @@ public class StateEventRuntimeTest {
         verifyLTL("tests/resources/alice-bob.sek", ltl, true, 21, "alice_and_bob_fairness.tgf");
     }
 
-    private void verifyLTL(String fileName, String ltl, boolean hasAcceptanceCycle, int expectedSize, String tgfPath) throws AcceptanceCycleDetectedException {
+    private void verifyLTL(String fileName, String ltl, boolean hasAcceptanceCycle, int expectedSize, String tgfPath) {
         ILanguageRuntime kripkeRuntime = load(fileName);
         BuchiDeclaration buchiAutomaton = getBuchiDeclaration(ltl);
         plug.language.buchi.runtime.BuchiRuntime buchiRuntime = new plug.language.buchi.runtime.BuchiRuntime(buchiAutomaton);
@@ -278,13 +278,16 @@ public class StateEventRuntimeTest {
 
         BA_GaiserSchwoon_Iterative verifier = new BA_GaiserSchwoon_Iterative(kbProductSemantics);
 
-        try {
-            verifier.execute();
-        } catch (AcceptanceCycleDetectedException e) {
-            assertThat(true, is(hasAcceptanceCycle));
-            return;
+
+        boolean[] result = new boolean[] { true };
+        verifier.getAnnouncer().when(PropertyEvent.class, (announcer, event) -> {
+            result[0] &= event.isVerified();
+        });
+        verifier.execute();
+
+        if (result[0] == hasAcceptanceCycle) {
+            Assert.fail("Property " + (result[0] ? "is verified but shouldn't" : "isn't verified but should"));
         }
-        assertThat(false, is(hasAcceptanceCycle));
     }
 
     BuchiDeclaration getBuchiDeclaration(String ltlFormula) {
