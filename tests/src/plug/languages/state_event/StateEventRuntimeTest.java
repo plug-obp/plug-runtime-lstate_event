@@ -368,9 +368,7 @@ public class StateEventRuntimeTest {
 
 
     public boolean deadlockfree(ILanguageRuntime runtime, int expectedStateCount, int expectedTransitionCount) {
-        BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager());
-        explorer.stateSpaceManager.countingTransitionStorage();
-
+        BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager(true));
 
         DeadlockVerifier dV = new DeadlockVerifier(explorer.getAnnouncer());
 
@@ -386,9 +384,7 @@ public class StateEventRuntimeTest {
     }
 
     public boolean verify(ILanguageRuntime runtime, String predicate, int expectedStateCount, int expectedTransitionCount) {
-        BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager());
-        explorer.stateSpaceManager.countingTransitionStorage();
-
+        BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager(true));
 
         PredicateVerifier<StateEventConfiguration> pV = new PredicateVerifier<>(explorer.getAnnouncer());
 
@@ -412,19 +408,18 @@ public class StateEventRuntimeTest {
 
         explorer.execute();
 
-        Assert.assertEquals(expectedStateCount, explorer.stateSpaceManager.size());
-        Assert.assertEquals(expectedTransitionCount, explorer.stateSpaceManager.transitionCount());
+        Assert.assertEquals(expectedStateCount, explorer.getStateSpaceManager().size());
+        Assert.assertEquals(expectedTransitionCount, explorer.getStateSpaceManager().transitionCount());
 
         return ret[0];
     }
 
     public AbstractExplorer explore(ILanguageRuntime runtime, int expectedStateCount, int expectedTransitionCount) {
-        BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager());
-        explorer.stateSpaceManager.countingTransitionStorage();
+        BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager(true));
         explorer.execute();
 
-        Assert.assertEquals(expectedStateCount, explorer.stateSpaceManager.size());
-        Assert.assertEquals(expectedTransitionCount, explorer.stateSpaceManager.transitionCount());
+        Assert.assertEquals(expectedStateCount, explorer.getStateSpaceManager().size());
+        Assert.assertEquals(expectedTransitionCount, explorer.getStateSpaceManager().transitionCount());
 
         return explorer;
     }
