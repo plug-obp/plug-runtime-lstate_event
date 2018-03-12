@@ -1,11 +1,13 @@
 package plug.languages.state_event;
 
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import org.junit.Assert;
 import org.junit.Test;
 import plug.core.ILanguageModule;
 import plug.core.ILanguageRuntime;
 import plug.core.IRuntimeView;
+import plug.core.RuntimeDescription;
 import plug.events.PropertyEvent;
 import plug.explorer.AbstractExplorer;
 import plug.explorer.BFSExplorer;
@@ -270,11 +272,11 @@ public class StateEventRuntimeTest {
     }
 
     private void verifyLTL(String fileName, String ltl, boolean hasAcceptanceCycle, int expectedSize, String tgfPath) {
-        ILanguageRuntime kripkeRuntime = load(fileName);
+        RuntimeDescription kripke = new RuntimeDescription(Paths.get(fileName));
         BuchiDeclaration buchiAutomaton = getBuchiDeclaration(ltl);
         plug.language.buchi.runtime.BuchiRuntime buchiRuntime = new plug.language.buchi.runtime.BuchiRuntime(buchiAutomaton);
 
-        KripkeBuchiProductSemantics kbProductSemantics = new KripkeBuchiProductSemantics(kripkeRuntime, module, buchiRuntime);
+        KripkeBuchiProductSemantics kbProductSemantics = new KripkeBuchiProductSemantics(kripke, buchiRuntime);
 
         BA_GaiserSchwoon_Iterative verifier = new BA_GaiserSchwoon_Iterative(kbProductSemantics);
 
