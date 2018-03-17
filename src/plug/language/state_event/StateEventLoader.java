@@ -4,7 +4,7 @@ import java.io.File;
 import java.net.URI;
 import java.util.Map;
 import plug.core.ILanguageLoader;
-import plug.core.ILanguageRuntime;
+import plug.core.ITransitionRelation;
 import plug.language.state_event.diagnosis.SEAtomicPropositionsEvaluator;
 import plug.language.state_event.model.StateEventDenseReader;
 import plug.language.state_event.model.StateEventModel;
@@ -18,7 +18,7 @@ public class StateEventLoader implements ILanguageLoader<StateEventRuntime> {
 
     //TODO: these functions are development helpers
     @Deprecated
-    public static ILanguageRuntime loadRuntime(File modelFile) {
+    public static ITransitionRelation loadRuntime(File modelFile) {
         return (new StateEventLoader())._loadRuntime(modelFile);
     }
 

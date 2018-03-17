@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import org.junit.Assert;
 import org.junit.Test;
 import plug.core.ILanguagePlugin;
-import plug.core.ILanguageRuntime;
+import plug.core.ITransitionRelation;
 import plug.core.IRuntimeView;
 import plug.core.RuntimeDescription;
 import plug.events.PropertyEvent;
@@ -45,7 +45,7 @@ public class StateEventRuntimeTest {
 
     ILanguagePlugin module = new StateEventPlugin();
 
-    ILanguageRuntime load(String fileName) {
+    ITransitionRelation load(String fileName) {
         return module.getLoader().getRuntime(fileName);
     }
 
@@ -72,7 +72,7 @@ public class StateEventRuntimeTest {
 
     @Test
     public void petterson() {
-        ILanguageRuntime runtime = load("tests/resources/peterson.sek");
+        ITransitionRelation runtime = load("tests/resources/peterson.sek");
         explore(runtime,10, 16);
     }
 
@@ -129,20 +129,20 @@ public class StateEventRuntimeTest {
 
     @Test
     public void testSimple() {
-        ILanguageRuntime runtime = load("tests/resources/stateSpaceExample.sek");
+        ITransitionRelation runtime = load("tests/resources/stateSpaceExample.sek");
         explore(runtime,3, 3);
     }
 
     @Test
     public void testAlice_Bob() {
-        ILanguageRuntime runtime = load("tests/resources/alice-bob.sek");
+        ITransitionRelation runtime = load("tests/resources/alice-bob.sek");
         AbstractExplorer controller = explore(runtime, 11, 18);
         StateSpace2TGF.toTGF(controller.getStateSpaceManager().getGraphView(), true, "alice_bob.tgf");
     }
 
     @Test
     public void testPredicateAlice_Bob() {
-        ILanguageRuntime runtime = load("tests/resources/alice-bob.sek");
+        ITransitionRelation runtime = load("tests/resources/alice-bob.sek");
         assertThat(verify(runtime, "!(|alice.state == 2| && |bob.state == 3|)", 11, 18), is(true));
     }
 
@@ -313,7 +313,7 @@ public class StateEventRuntimeTest {
 //        controller.stateSpaceManager.fullTransitionStorage();
 //
 //
-//        ILanguageRuntime runtime = load(modelPath);
+//        ITransitionRelation runtime = load(modelPath);
 //        controller.addRuntime(runtime);
 //
 //
@@ -358,18 +358,18 @@ public class StateEventRuntimeTest {
 
     @Test
     public void testDeadlockfreeSimple() {
-        ILanguageRuntime runtime = load("tests/resources/stateSpaceExample.sek");
+        ITransitionRelation runtime = load("tests/resources/stateSpaceExample.sek");
         assertThat(deadlockfree(runtime, 3, 4), is(true));
     }
 
     @Test
     public void testDeadlockfreeAlice_Bob() {
-        ILanguageRuntime runtime = load("tests/resources/alice-bob.sek");
+        ITransitionRelation runtime = load("tests/resources/alice-bob.sek");
         assertThat(deadlockfree(runtime, 11, 17), is(true));
     }
 
 
-    public boolean deadlockfree(ILanguageRuntime runtime, int expectedStateCount, int expectedTransitionCount) {
+    public boolean deadlockfree(ITransitionRelation runtime, int expectedStateCount, int expectedTransitionCount) {
         BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager(true));
 
         DeadlockVerifier dV = new DeadlockVerifier(explorer.getAnnouncer());
@@ -385,7 +385,7 @@ public class StateEventRuntimeTest {
         return deadLockFree[0];
     }
 
-    public boolean verify(ILanguageRuntime runtime, String predicate, int expectedStateCount, int expectedTransitionCount) {
+    public boolean verify(ITransitionRelation runtime, String predicate, int expectedStateCount, int expectedTransitionCount) {
         BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager(true));
 
         PredicateVerifier<StateEventConfiguration> pV = new PredicateVerifier<>(explorer.getAnnouncer());
@@ -416,7 +416,7 @@ public class StateEventRuntimeTest {
         return ret[0];
     }
 
-    public AbstractExplorer explore(ILanguageRuntime runtime, int expectedStateCount, int expectedTransitionCount) {
+    public AbstractExplorer explore(ITransitionRelation runtime, int expectedStateCount, int expectedTransitionCount) {
         BFSExplorer explorer = new BFSExplorer(runtime, new SimpleStateSpaceManager(true));
         explorer.execute();
 
