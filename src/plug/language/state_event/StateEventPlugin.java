@@ -1,14 +1,14 @@
 package plug.language.state_event;
 
 import plug.core.ILanguageLoader;
-import plug.core.ILanguageModule;
+import plug.core.ILanguagePlugin;
 import plug.core.IRuntimeView;
 import plug.language.state_event.runtime.StateEventRuntime;
 
 /**
  * Created by Ciprian TEODOROV on 03/03/17.
  */
-public class StateEventModule implements ILanguageModule<StateEventRuntime> {
+public class StateEventPlugin implements ILanguagePlugin<StateEventRuntime> {
     StateEventLoader loader = new StateEventLoader();
 
     @Override

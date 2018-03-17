@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 import org.junit.Assert;
 import org.junit.Test;
-import plug.core.ILanguageModule;
+import plug.core.ILanguagePlugin;
 import plug.core.ILanguageRuntime;
 import plug.core.IRuntimeView;
 import plug.core.RuntimeDescription;
@@ -13,7 +13,7 @@ import plug.explorer.AbstractExplorer;
 import plug.explorer.BFSExplorer;
 import plug.explorer.buchi.nested_dfs.BA_GaiserSchwoon_Iterative;
 import plug.language.buchikripke.runtime.KripkeBuchiProductSemantics;
-import plug.language.state_event.StateEventModule;
+import plug.language.state_event.StateEventPlugin;
 import plug.language.state_event.diagnosis.AtomEvaluator;
 import plug.language.state_event.diagnosis.Predicate;
 import plug.language.state_event.runtime.StateEventConfiguration;
@@ -43,7 +43,7 @@ import static org.junit.Assert.assertThat;
  */
 public class StateEventRuntimeTest {
 
-    ILanguageModule module = new StateEventModule();
+    ILanguagePlugin module = new StateEventPlugin();
 
     ILanguageRuntime load(String fileName) {
         return module.getLoader().getRuntime(fileName);
