@@ -1,7 +1,7 @@
 package plug.language.state_event.runtime;
 
 import plug.core.IAtomicPropositionsEvaluator;
-import plug.core.IConcurrentRuntime;
+import plug.core.IConcurrentTransitionRelation;
 import plug.core.IFiredTransition;
 import plug.language.state_event.diagnosis.SEAtomicPropositionsEvaluator;
 import plug.language.state_event.model.StateEventModel;
@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-public class StateEventRuntime implements IConcurrentRuntime<StateEventRuntime, StateEventConfiguration, StateEventTransition> {
+public class StateEventTransitionRelation implements IConcurrentTransitionRelation<StateEventTransitionRelation, StateEventConfiguration, StateEventTransition> {
 	public StateEventModel program;
 
 	//TODO: the @SEAtomicPropositionsEvaluator should not be in this class
@@ -24,8 +24,8 @@ public class StateEventRuntime implements IConcurrentRuntime<StateEventRuntime, 
 	}
 
 	@Override
-	public StateEventRuntime createCopy() {
-		return new StateEventRuntime();
+	public StateEventTransitionRelation createCopy() {
+		return new StateEventTransitionRelation();
 	}
 	
 	@Override

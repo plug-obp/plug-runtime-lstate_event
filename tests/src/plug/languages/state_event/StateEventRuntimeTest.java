@@ -17,7 +17,7 @@ import plug.language.state_event.StateEventPlugin;
 import plug.language.state_event.diagnosis.AtomEvaluator;
 import plug.language.state_event.diagnosis.Predicate;
 import plug.language.state_event.runtime.StateEventConfiguration;
-import plug.language.state_event.runtime.StateEventRuntime;
+import plug.language.state_event.runtime.StateEventTransitionRelation;
 import plug.statespace.SimpleStateSpaceManager;
 import plug.verifiers.deadlock.DeadlockVerifier;
 import plug.verifiers.deadlock.FinalStateDetected;
@@ -51,14 +51,14 @@ public class StateEventRuntimeTest {
 
     @Test
     public void testDifferentRuntimeViews() {
-        IRuntimeView view1 = module.getRuntimeView(new StateEventRuntime());
-        IRuntimeView view2 = module.getRuntimeView(new StateEventRuntime());
+        IRuntimeView view1 = module.getRuntimeView(new StateEventTransitionRelation());
+        IRuntimeView view2 = module.getRuntimeView(new StateEventTransitionRelation());
         assertNotSame(view1, view2);
     }
 
     @Test
     public void testLoad() {
-        StateEventRuntime runtime = (StateEventRuntime) load("tests/resources/stateSpaceExample.sek");
+        StateEventTransitionRelation runtime = (StateEventTransitionRelation) load("tests/resources/stateSpaceExample.sek");
         assertThat(runtime.program, is(notNullValue()));
         assertThat(runtime.program.variables, is(notNullValue()));
         assertThat(runtime.program.variables.size(), is(2));
@@ -323,7 +323,7 @@ public class StateEventRuntimeTest {
 //
 //        Evaluator evaluator = new Evaluator();
 //        AtomEvaluator atomE = new AtomEvaluator();
-//        atomE.program = ((StateEventRuntime)runtime).program;
+//        atomE.program = ((StateEventTransitionRelation)runtime).program;
 //        evaluator.addAtomEvaluator("sek", atomE);
 //        evaluator.setDefaultEvaluator(atomE);
 //
@@ -394,7 +394,7 @@ public class StateEventRuntimeTest {
         Expression exp = Parser.parse(predicate);
         Evaluator evaluator = new Evaluator();
         AtomEvaluator atomE = new AtomEvaluator();
-        atomE.program = ((StateEventRuntime)runtime).program;
+        atomE.program = ((StateEventTransitionRelation)runtime).program;
         evaluator.addAtomEvaluator("sek", atomE);
         evaluator.setDefaultEvaluator(atomE);
         Predicate ipred = new Predicate(exp, evaluator, atomE);

@@ -8,13 +8,13 @@ import plug.core.ITransitionRelation;
 import plug.language.state_event.diagnosis.SEAtomicPropositionsEvaluator;
 import plug.language.state_event.model.StateEventDenseReader;
 import plug.language.state_event.model.StateEventModel;
-import plug.language.state_event.runtime.StateEventRuntime;
+import plug.language.state_event.runtime.StateEventTransitionRelation;
 
 /**
  * @author Ciprian Teodorov (ciprian.teodorov@ensta-bretagne.fr)
  *         Created on 10/03/16.
  */
-public class StateEventLoader implements ILanguageLoader<StateEventRuntime> {
+public class StateEventLoader implements ILanguageLoader<StateEventTransitionRelation> {
 
     //TODO: these functions are development helpers
     @Deprecated
@@ -27,8 +27,8 @@ public class StateEventLoader implements ILanguageLoader<StateEventRuntime> {
         return (new StateEventLoader()).loadModel(modelFile);
     }
 
-    public StateEventRuntime _loadRuntime(File modelFile) {
-        StateEventRuntime runtime = new StateEventRuntime();
+    public StateEventTransitionRelation _loadRuntime(File modelFile) {
+        StateEventTransitionRelation runtime = new StateEventTransitionRelation();
         runtime.program = loadModel(modelFile);
         runtime.atomicPropositionsEvaluator = new SEAtomicPropositionsEvaluator(runtime.program);
         return runtime;
@@ -40,7 +40,7 @@ public class StateEventLoader implements ILanguageLoader<StateEventRuntime> {
     }
 
     @Override
-    public StateEventRuntime getRuntime(URI modelURI, Map<String, Object> options) {
+    public StateEventTransitionRelation getRuntime(URI modelURI, Map<String, Object> options) {
         return _loadRuntime(new File(modelURI));
     }
 }

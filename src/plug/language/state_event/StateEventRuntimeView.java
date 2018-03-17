@@ -7,20 +7,20 @@ import plug.core.IRuntimeView;
 import plug.core.view.ConfigurationItem;
 import plug.language.state_event.model.StateEventTransition;
 import plug.language.state_event.runtime.StateEventConfiguration;
-import plug.language.state_event.runtime.StateEventRuntime;
+import plug.language.state_event.runtime.StateEventTransitionRelation;
 
 /**
  * Created by Ciprian TEODOROV on 03/03/17.
  */
 public class StateEventRuntimeView implements IRuntimeView<StateEventConfiguration, StateEventTransition> {
-    private final StateEventRuntime runtime;
+    private final StateEventTransitionRelation runtime;
 
-    public StateEventRuntimeView(StateEventRuntime runtime) {
+    public StateEventRuntimeView(StateEventTransitionRelation runtime) {
         this.runtime = runtime;
     }
 
     @Override
-    public StateEventRuntime getRuntime() {
+    public StateEventTransitionRelation getRuntime() {
         return runtime;
     }
 
