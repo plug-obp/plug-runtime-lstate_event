@@ -5,3 +5,5 @@ bin
 *.tgf
 *.iml
 out
+.gradle
+build
