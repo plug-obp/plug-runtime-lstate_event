@@ -5,8 +5,8 @@ import java.nio.file.Paths;
 import org.junit.Assert;
 import org.junit.Test;
 import plug.core.ILanguagePlugin;
-import plug.core.ITransitionRelation;
 import plug.core.IRuntimeView;
+import plug.core.ITransitionRelation;
 import plug.core.RuntimeDescription;
 import plug.events.PropertyEvent;
 import plug.explorer.AbstractExplorer;
@@ -404,7 +404,7 @@ public class StateEventRuntimeTest {
         boolean ret[] = new boolean[] {true};
         pV.announcer.when(PredicateViolationEvent.class, (announcer, event) -> {
             System.err.println("predicate violated: " + event.getViolated());
-            explorer.hasToFinish();
+            explorer.getMonitor().hasToFinish();
             ret[0] = false;
         });
 
