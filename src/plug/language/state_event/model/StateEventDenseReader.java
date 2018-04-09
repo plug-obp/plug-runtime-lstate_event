@@ -1,7 +1,15 @@
 package plug.language.state_event.model;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Created by Ciprian TEODOROV on 14/04/17.
@@ -9,22 +17,14 @@ import java.util.*;
 public class StateEventDenseReader {
     BufferedReader reader;
 
-    public StateEventModel read(File inFile) {
+    public StateEventModel read(File inFile) throws IOException {
         StateEventModel sem = new StateEventModel();
         try {
             reader = new BufferedReader(new InputStreamReader(new FileInputStream(inFile)));
             readModel(sem);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                reader.close();
             }
         }
         return sem;
