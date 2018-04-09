@@ -45,19 +45,19 @@ public class StateEventRuntimeTest {
 
     ILanguagePlugin module = new StateEventPlugin();
 
-    ITransitionRelation load(String fileName) {
+    ITransitionRelation load(String fileName) throws Exception {
         return module.getLoader().getRuntime(fileName);
     }
 
     @Test
-    public void testDifferentRuntimeViews() {
+    public void testDifferentRuntimeViews() throws Exception {
         IRuntimeView view1 = module.getRuntimeView(new StateEventTransitionRelation());
         IRuntimeView view2 = module.getRuntimeView(new StateEventTransitionRelation());
         assertNotSame(view1, view2);
     }
 
     @Test
-    public void testLoad() {
+    public void testLoad() throws Exception {
         StateEventTransitionRelation runtime = (StateEventTransitionRelation) load("tests/resources/stateSpaceExample.sek");
         assertThat(runtime.program, is(notNullValue()));
         assertThat(runtime.program.variables, is(notNullValue()));
@@ -71,19 +71,19 @@ public class StateEventRuntimeTest {
     }
 
     @Test
-    public void petterson() {
+    public void petterson() throws Exception {
         ITransitionRelation runtime = load("tests/resources/peterson.sek");
         explore(runtime,10, 16);
     }
 
     @Test
-    public void petersonMutualExclusion() {
+    public void petersonMutualExclusion() throws Exception {
         String ltl = "exclusion = ![]!(|p1.state == 2| && |p2.state == 2|)";
         verifyLTL("tests/resources/peterson.sek", ltl, false, 10, null);
     }
 
     @Test
-    public void petersonFairness() {
+    public void petersonFairness() throws Exception {
         String ltl =
                 "//if one sets a flag eventually it gets to the critical section\n" +
                 "fair = let\n" +
@@ -96,7 +96,7 @@ public class StateEventRuntimeTest {
     }
 
     @Test
-    public void petersonIdling() {
+    public void petersonIdling() throws Exception {
         String ltl =
                 "idle = let\n" +
                 "\tp1cs \t= |p1.state == 2|,\n" +
@@ -114,58 +114,58 @@ public class StateEventRuntimeTest {
 
 
     @Test
-    public void peterson1Infoften() {
+    public void peterson1Infoften() throws Exception {
         String ltl =
                 "infoften = ! ([] <> |p1.state == 2| )";
         verifyLTL("tests/resources/peterson.sek", ltl, true, 18, "p1infoften.tgf");
     }
 
     @Test
-    public void peterson2Infoften() {
+    public void peterson2Infoften() throws Exception {
         String ltl =
                 "infoften = ! ([] <> |p2.state == 2| )";
         verifyLTL("tests/resources/peterson.sek", ltl, true, 18, "p2infoften.tgf");
     }
 
     @Test
-    public void testSimple() {
+    public void testSimple() throws Exception {
         ITransitionRelation runtime = load("tests/resources/stateSpaceExample.sek");
         explore(runtime,3, 3);
     }
 
     @Test
-    public void testAlice_Bob() {
+    public void testAlice_Bob() throws Exception {
         ITransitionRelation runtime = load("tests/resources/alice-bob.sek");
         AbstractExplorer controller = explore(runtime, 11, 18);
         StateSpace2TGF.toTGF(controller.getStateSpaceManager().getGraphView(), true, "alice_bob.tgf");
     }
 
     @Test
-    public void testPredicateAlice_Bob() {
+    public void testPredicateAlice_Bob() throws Exception {
         ITransitionRelation runtime = load("tests/resources/alice-bob.sek");
         assertThat(verify(runtime, "!(|alice.state == 2| && |bob.state == 3|)", 11, 18), is(true));
     }
 
     @Test
-    public void testFairnessSimple0() {
+    public void testFairnessSimple0() throws Exception {
         String ltl = "pred = ![](|a == 1| => (<> |b == 1|))";
         verifyLTL("tests/resources/simple0.sek", ltl, true, 3, "simple0.tgf");
     }
 
     @Test
-    public void testFairnessSimple() {
+    public void testFairnessSimple() throws Exception {
         String ltl = "pred = ![](|a == 1| => (<> |b == 1|))";
         verifyLTL("tests/resources/simple.sek", ltl, true, 7, "simple.tgf");
     }
 
     @Test
-    public void testMutualExclusion() {
+    public void testMutualExclusion() throws Exception {
         String ltl = "mutualExclusion = ! [] ! (|alice.state == 2| && |bob.state == 3|)";
         verifyLTL("tests/resources/alice-bob.sek", ltl, false, 11, "mutual_exclusion.tgf");
     }
 
     @Test
-    public void testIdlingAlice() {
+    public void testIdlingAlice() throws Exception {
         String ltl =
                 "fair = let\n" +
                 "\taliceInCS \t= |alice.state == 2|,\n" +
@@ -175,7 +175,7 @@ public class StateEventRuntimeTest {
     }
 
     @Test
-    public void testIdlingBob() {
+    public void testIdlingBob() throws Exception {
         String ltl =
                 "fair = let\n" +
                         "\tbobInCS \t= |bob.state == 3|,\n" +
@@ -185,21 +185,21 @@ public class StateEventRuntimeTest {
     }
 
     @Test
-    public void testInfoftenAlice() {
+    public void testInfoftenAlice() throws Exception {
         String ltl =
                 "fair = ! ([] <> |alice.state == 2| )";
         verifyLTL("tests/resources/alice-bob.sek", ltl, true, 19, "alice_infoften.tgf");
     }
 
     @Test
-    public void testInfoftenBob() {
+    public void testInfoftenBob() throws Exception {
         String ltl =
                 "fair = ! ([] <> |bob.state == 3| )";
         verifyLTL("tests/resources/alice-bob.sek", ltl, true, 22, "bob_infoften.tgf");
     }
 
     @Test
-    public void testWeakFairnessAlice() {
+    public void testWeakFairnessAlice() throws Exception {
         String ltl =
                 "//if alice sets the flag eventually she gets to the critical section\n" +
                 "fair = let\n" +
@@ -210,7 +210,7 @@ public class StateEventRuntimeTest {
     }
 
     @Test
-    public void testWeakFairnessBob() {
+    public void testWeakFairnessBob() throws Exception {
         String ltl =
                 "//if bob sets a flag eventually he gets to the critical section\n" +
                 "fair = let\n" +
@@ -221,7 +221,7 @@ public class StateEventRuntimeTest {
     }
 
     @Test
-    public void testWeakFairnessAliceAndBob() {
+    public void testWeakFairnessAliceAndBob() throws Exception {
         String ltl =
                 "//if one sets a flag eventually it gets to the critical section\n" +
                         "fair = let\n" +
@@ -235,7 +235,7 @@ public class StateEventRuntimeTest {
     }
 
     @Test
-    public void testFairnessAlice() {
+    public void testFairnessAlice() throws Exception {
         String ltl =
                 "//if alice sets the flag eventually she gets to the critical section\n" +
                 "fair = let\n" +
@@ -246,7 +246,7 @@ public class StateEventRuntimeTest {
     }
 
     @Test
-    public void testFairnessBob() {
+    public void testFairnessBob() throws Exception {
         String ltl =
                 "//if bob sets a flag eventually he gets to the critical section\n" +
                 "fair = let\n" +
@@ -258,7 +258,7 @@ public class StateEventRuntimeTest {
     }
 
     @Test
-    public void testFairnessAliceAndBob() {
+    public void testFairnessAliceAndBob() throws Exception {
         String ltl =
                 "//if one sets a flag eventually it gets to the critical section\n" +
                 "fair = let\n" +
@@ -271,7 +271,7 @@ public class StateEventRuntimeTest {
         verifyLTL("tests/resources/alice-bob.sek", ltl, true, 21, "alice_and_bob_fairness.tgf");
     }
 
-    private void verifyLTL(String fileName, String ltl, boolean hasAcceptanceCycle, int expectedSize, String tgfPath) {
+    private void verifyLTL(String fileName, String ltl, boolean hasAcceptanceCycle, int expectedSize, String tgfPath) throws Exception {
         RuntimeDescription kripke = new RuntimeDescription(Paths.get(fileName));
         BuchiDeclaration buchiAutomaton = getBuchiDeclaration(ltl);
         plug.language.buchi.runtime.BuchiRuntime buchiRuntime = new plug.language.buchi.runtime.BuchiRuntime(buchiAutomaton);
@@ -357,13 +357,13 @@ public class StateEventRuntimeTest {
 //    }
 
     @Test
-    public void testDeadlockfreeSimple() {
+    public void testDeadlockfreeSimple() throws Exception {
         ITransitionRelation runtime = load("tests/resources/stateSpaceExample.sek");
         assertThat(deadlockfree(runtime, 3, 4), is(true));
     }
 
     @Test
-    public void testDeadlockfreeAlice_Bob() {
+    public void testDeadlockfreeAlice_Bob() throws Exception {
         ITransitionRelation runtime = load("tests/resources/alice-bob.sek");
         assertThat(deadlockfree(runtime, 11, 17), is(true));
     }
