@@ -1,0 +1,1 @@
+mutualExclusion = [] ! (|alice.state == 2| && |bob.state == 3|)

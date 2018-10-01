@@ -78,8 +78,8 @@ public class StateEventRuntimeTest {
 
     @Test
     public void petersonMutualExclusion() throws Exception {
-        String ltl = "exclusion = ![]!(|p1.state == 2| && |p2.state == 2|)";
-        verifyLTL("tests/resources/peterson.sek", ltl, false, 10, null);
+        String ltl = "exclusion = []!(|p1.state == 2| && |p2.state == 2|)";
+        verifyLTL("tests/resources/peterson.sek", ltl, false, 11, null);
     }
 
     @Test
@@ -91,8 +91,8 @@ public class StateEventRuntimeTest {
                 "\tp1GetsIn = [] (|p1.flag == 1| => <> p1cs),\n" +
                 "\tp2cs\t\t= |p2.state == 2|,\n" +
                 "\tp2GetsIn \t= [] (|p2.flag == 1| => <> p2cs)\n" +
-                "in !(p1GetsIn && p2GetsIn)";
-        verifyLTL("tests/resources/peterson.sek", ltl, false, 18, null);
+                "in (p1GetsIn && p2GetsIn)";
+        verifyLTL("tests/resources/peterson.sek", ltl, false, 19, null);
     }
 
     @Test
@@ -101,15 +101,15 @@ public class StateEventRuntimeTest {
                 "idle = let\n" +
                 "\tp1cs \t= |p1.state == 2|,\n" +
                 "\tp1SetsFlag = |p1.flag == 1|,\n" +
-                "in ! ( ([] !p1SetsFlag) => ([] ! p1cs) )";
-        verifyLTL("tests/resources/peterson.sek", ltl, false, 3, null);
+                "in ( ([] !p1SetsFlag) => ([] ! p1cs) )";
+        verifyLTL("tests/resources/peterson.sek", ltl, false, 4, null);
 
         ltl =
                 "idle = let\n" +
                 "\tp2cs \t= |p2.state == 2|,\n" +
                 "\tp2SetsFlag = |p2.flag == 1|,\n" +
-                "in ! ( ([] !p2SetsFlag) => ([] ! p2cs) )";
-        verifyLTL("tests/resources/peterson.sek", ltl, false, 4, null);
+                "in ( ([] !p2SetsFlag) => ([] ! p2cs) )";
+        verifyLTL("tests/resources/peterson.sek", ltl, false, 5, null);
     }
 
 
@@ -117,14 +117,14 @@ public class StateEventRuntimeTest {
     public void peterson1Infoften() throws Exception {
         String ltl =
                 "infoften = ! ([] <> |p1.state == 2| )";
-        verifyLTL("tests/resources/peterson.sek", ltl, true, 18, "p1infoften.tgf");
+        verifyLTL("tests/resources/peterson.sek", ltl, true, 10, "p1infoften.tgf");
     }
 
     @Test
     public void peterson2Infoften() throws Exception {
         String ltl =
                 "infoften = ! ([] <> |p2.state == 2| )";
-        verifyLTL("tests/resources/peterson.sek", ltl, true, 18, "p2infoften.tgf");
+        verifyLTL("tests/resources/peterson.sek", ltl, true, 8, "p2infoften.tgf");
     }
 
     @Test
@@ -149,19 +149,19 @@ public class StateEventRuntimeTest {
     @Test
     public void testFairnessSimple0() throws Exception {
         String ltl = "pred = ![](|a == 1| => (<> |b == 1|))";
-        verifyLTL("tests/resources/simple0.sek", ltl, true, 3, "simple0.tgf");
+        verifyLTL("tests/resources/simple0.sek", ltl, true, 2, "simple0.tgf");
     }
 
     @Test
     public void testFairnessSimple() throws Exception {
         String ltl = "pred = ![](|a == 1| => (<> |b == 1|))";
-        verifyLTL("tests/resources/simple.sek", ltl, true, 7, "simple.tgf");
+        verifyLTL("tests/resources/simple.sek", ltl, true, 4, "simple.tgf");
     }
 
     @Test
     public void testMutualExclusion() throws Exception {
-        String ltl = "mutualExclusion = ! [] ! (|alice.state == 2| && |bob.state == 3|)";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 11, "mutual_exclusion.tgf");
+        String ltl = "mutualExclusion = [] ! (|alice.state == 2| && |bob.state == 3|)";
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 12, "mutual_exclusion.tgf");
     }
 
     @Test
@@ -170,8 +170,8 @@ public class StateEventRuntimeTest {
                 "fair = let\n" +
                 "\taliceInCS \t= |alice.state == 2|,\n" +
                 "\taliceSetsFlag = |alice.flag == 1|,\n" +
-                "in ! ( ([] !aliceSetsFlag) => ([] ! aliceInCS) )";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 3, "alice_idling.tgf");
+                "in  ( ([] !aliceSetsFlag) => ([] ! aliceInCS) )";
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 4, "alice_idling.tgf");
     }
 
     @Test
@@ -180,22 +180,22 @@ public class StateEventRuntimeTest {
                 "fair = let\n" +
                         "\tbobInCS \t= |bob.state == 3|,\n" +
                         "\tbobSetsFlag = |bob.flag == 1|,\n" +
-                        "in ! ( ([] !bobSetsFlag) => ([] ! bobInCS) )";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 3, "bob_idling.tgf");
+                        "in ( ([] !bobSetsFlag) => ([] ! bobInCS) )";
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 4, "bob_idling.tgf");
     }
 
     @Test
     public void testInfoftenAlice() throws Exception {
         String ltl =
-                "fair = ! ([] <> |alice.state == 2| )";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 19, "alice_infoften.tgf");
+                "fair = ([] <> |alice.state == 2| )";
+        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 10, "alice_infoften.tgf");
     }
 
     @Test
     public void testInfoftenBob() throws Exception {
         String ltl =
                 "fair = ! ([] <> |bob.state == 3| )";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 22, "bob_infoften.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 12, "bob_infoften.tgf");
     }
 
     @Test
@@ -205,8 +205,8 @@ public class StateEventRuntimeTest {
                 "fair = let\n" +
                 "\taliceInCS \t= |alice.state == 2|,\n" +
                 "\taliceGetsIn = (|alice.flag == 1| => <> aliceInCS),\n" +
-                "in !aliceGetsIn";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 4, "alice_weak_fairness.tgf");
+                "in aliceGetsIn";
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 1, "alice_weak_fairness.tgf");
     }
 
     @Test
@@ -216,8 +216,8 @@ public class StateEventRuntimeTest {
                 "fair = let\n" +
                 "\tbobInCS\t\t= |bob.state == 3|,\n" +
                 "\tbobGetsIn \t= (|bob.flag == 1| => <> bobInCS)\n" +
-                "in ! bobGetsIn";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 6, "bob_weak_fairness.tgf");
+                "in bobGetsIn";
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 1, "bob_weak_fairness.tgf");
     }
 
     @Test
@@ -229,9 +229,9 @@ public class StateEventRuntimeTest {
                         "\taliceGetsIn = (|alice.flag == 1| => <> aliceInCS),\n" +
                         "\tbobInCS\t\t= |bob.state == 3|,\n" +
                         "\tbobGetsIn \t= (|bob.flag == 1| => <> bobInCS)\n" +
-                        "in !(aliceGetsIn && bobGetsIn)";
+                        "in (aliceGetsIn && bobGetsIn)";
 
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 9, "alice_and_bob_weak_fairness.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 1, "alice_and_bob_weak_fairness.tgf");
     }
 
     @Test
@@ -241,8 +241,8 @@ public class StateEventRuntimeTest {
                 "fair = let\n" +
                 "\taliceInCS \t= |alice.state == 2|,\n" +
                 "\taliceGetsIn = [] (|alice.flag == 1| => <> aliceInCS),\n" +
-                "in !aliceGetsIn";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 15, "alice_fairness.tgf");
+                "in aliceGetsIn";
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 16, "alice_fairness.tgf");
     }
 
     @Test
@@ -254,7 +254,7 @@ public class StateEventRuntimeTest {
                 "\tbobGetsIn \t= [] (|bob.flag == 1| => <> bobInCS)\n" +
                 "in ! bobGetsIn";
 
-        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 17, "bob_fairness.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 4, "bob_fairness.tgf");
     }
 
     @Test
@@ -268,7 +268,7 @@ public class StateEventRuntimeTest {
                 "\tbobGetsIn \t= [] (|bob.flag == 1| => <> bobInCS)\n" +
                 "in !(aliceGetsIn && bobGetsIn)";
 
-        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 21, "alice_and_bob_fairness.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 4, "alice_and_bob_fairness.tgf");
     }
 
     private void verifyLTL(String fileName, String ltl, boolean hasAcceptanceCycle, int expectedSize, String tgfPath) throws Exception {
@@ -278,7 +278,7 @@ public class StateEventRuntimeTest {
 
         KripkeBuchiProductSemantics kbProductSemantics = new KripkeBuchiProductSemantics(kripke, buchiRuntime);
 
-        BA_GaiserSchwoon_Iterative verifier = new BA_GaiserSchwoon_Iterative(kbProductSemantics, new SimpleStateSpaceManager());
+        BA_GaiserSchwoon_Iterative verifier = new BA_GaiserSchwoon_Iterative(kbProductSemantics, new SimpleStateSpaceManager(true));
 
 
         boolean[] result = new boolean[] { true };
@@ -287,9 +287,14 @@ public class StateEventRuntimeTest {
         });
         verifier.execute();
 
+        if (tgfPath != null) {
+            StateSpace2TGF.toTGF(verifier.getStateSpaceManager().getGraphView(), true, tgfPath);
+        }
+
         if (result[0] == hasAcceptanceCycle) {
             Assert.fail("Property " + (result[0] ? "is verified but shouldn't" : "isn't verified but should"));
         }
+        assertThat(verifier.getStateSpaceManager().size(), is(expectedSize));
     }
 
     BuchiDeclaration getBuchiDeclaration(String ltlFormula) {
