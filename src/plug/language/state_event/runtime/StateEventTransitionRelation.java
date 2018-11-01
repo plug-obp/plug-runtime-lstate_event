@@ -48,6 +48,6 @@ public class StateEventTransitionRelation implements IConcurrentTransitionRelati
 		target.id 	  = transition.target;
 		target.values = program.configurations[transition.target];
 
-		return new FiredTransition<>(source, target, transition.id);
+		return new FiredTransition<>(source, target, transition);
 	}
 }
