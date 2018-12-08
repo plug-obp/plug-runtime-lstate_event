@@ -5,7 +5,7 @@ buildscript {
    }
 
    dependencies {
-      classpath group: 'fr.ensta-bretagne', name: 'plug-plugin', version: '+'
+      classpath group: 'fr.ensta-bretagne', name: 'plug-plugin', version: '0.6'
    }
 }
 
