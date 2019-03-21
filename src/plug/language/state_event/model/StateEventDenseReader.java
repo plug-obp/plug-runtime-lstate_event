@@ -22,6 +22,7 @@ public class StateEventDenseReader {
         try {
             reader = new BufferedReader(new InputStreamReader(new FileInputStream(inFile)));
             readModel(sem);
+            sem.link();
         } finally {
             if (reader != null) {
                 reader.close();
@@ -138,6 +139,7 @@ public class StateEventDenseReader {
 
         //create the transition
         StateEventTransition transition = new StateEventTransition();
+        transition.model = ioSEM;
 
         //get the events
         transition.events = new int[nbEventsOnTheTransition];

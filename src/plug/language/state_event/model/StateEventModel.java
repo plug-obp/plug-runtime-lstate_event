@@ -1,6 +1,7 @@
 package plug.language.state_event.model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,11 +16,19 @@ public class StateEventModel {
 
 	public Map<String, Integer> variables;
 	public Map<String, Integer> events;
+	public Map<Integer, String> idx2events;
 	public int initialConfiguration;
 	public int configurations[][];
 	public Map<Integer, Collection<StateEventTransition>> fanout; //an entry in the array for fanout of each state
 
 	public Collection<StateEventTransition> getFireableTransitions(int stateID) {
 		return fanout.get(stateID);
+	}
+
+	public void link() {
+		idx2events = new HashMap<>();
+		for (Map.Entry<String, Integer> entry : events.entrySet()) {
+			idx2events.put(entry.getValue(), entry.getKey());
+		}
 	}
 }
