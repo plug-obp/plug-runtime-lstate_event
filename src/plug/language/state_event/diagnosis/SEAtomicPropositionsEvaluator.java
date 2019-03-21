@@ -37,9 +37,6 @@ public class SEAtomicPropositionsEvaluator implements IAtomicPropositionsEvaluat
         condition.value = Integer.parseInt(tokenizer.nextToken());
         return condition;
     }
-
-    //TODO: this should probably have source, target, transition
-    //public boolean[] getAtomicPropositionValuations(IConfiguration source, IConfiguration target, Object transition);
     
     @Override
     public boolean[] getAtomicPropositionValuations(IConfiguration target) {
@@ -49,5 +46,10 @@ public class SEAtomicPropositionsEvaluator implements IAtomicPropositionsEvaluat
             valuations[i] = seTarget.values[context.variables.get(testers[i].variable)] == testers[i].value;
         }
         return valuations;
+    }
+
+    @Override
+    public boolean[] getAtomicPropositionValuations(IConfiguration source, Object fireable, Object payload, IConfiguration target) {
+        return new boolean[0];
     }
 }

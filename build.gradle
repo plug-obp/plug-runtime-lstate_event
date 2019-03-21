@@ -11,13 +11,40 @@ buildscript {
 
 apply plugin: 'plug.plugin'
 
+configurations {
+   antlr4
+   compile.extendsFrom antlr4
+}
+
 dependencies {
+   antlr4  group: 'org.antlr', name: 'antlr4' , version: '4.5.+'
    compile group: 'com.fasterxml.jackson.core', name:'jackson-databind', version:'2.7.2'
    compile group: 'fr.ensta-bretagne', name: 'plug-core', version: plug.version
    compile group: 'fr.ensta-bretagne', name: 'LPropositionalLogic', version: plug.version
    compile group: 'fr.ensta-bretagne', name: 'LTL', version: plug.version
    compile group: 'fr.ensta-bretagne', name: 'plug-runtime-buchikripke', version: plug.version
 }
+
+String antlr4OutputPath(String path) {
+   if (System.properties['os.name'].replaceAll(' ', '').toLowerCase().contains('win')) {
+      return file(path + '/grammar')
+   }
+   return file(path)
+}
+def generatedPath = file('generated')
+generatedPath.mkdir()
+task generateAntlr4Parser(type: JavaExec) {
+   classpath configurations.antlr4
+   main = "org.antlr.v4.Tool"
+   args = ["grammar/SEDiag.g4"
+           , "-package"
+           , "plug.language.state_event.diagnosis.dsl.grammar"
+           , "-o"
+           , antlr4OutputPath("generated/plug/language/state_event/diagnosis/dsl")]
+}
+
+sourceSets.main.java.srcDir 'generated'
+compileJava.dependsOn generateAntlr4Parser
 
 project.ext["ideaGroupName"]="plug/languages"
 
