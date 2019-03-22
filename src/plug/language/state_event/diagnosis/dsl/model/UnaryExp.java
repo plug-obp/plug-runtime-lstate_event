@@ -1,11 +1,20 @@
 package plug.language.state_event.diagnosis.dsl.model;
 
 public class UnaryExp extends DiagnosisExp {
+    public DiagnosisExp getOperand() {
+        return operand;
+    }
+
     DiagnosisExp operand;
 
     public enum Operator {
         NOT, MINUS
     }
+
+    public Operator getOperator() {
+        return operator;
+    }
+
     Operator operator;
 
     public UnaryExp(Operator operator, DiagnosisExp operand) {

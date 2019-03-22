@@ -6,7 +6,7 @@ COMMENT : '/*' .*? '*/' -> skip ;
 WS : [ \r\t\n]+ -> skip ;
 
 expression :
-          NUMBER                                                            #ValueExp
+          NUMBER                                                            #LiteralExp
 		| 'clk' IDENTIFIER                                                  #ClockExp
 		| 't' IDENTIFIER									                #TransitionExp
 		| 'v' IDENTIFIER NEXT?                                              #VariableExp

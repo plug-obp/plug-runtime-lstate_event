@@ -1,6 +1,18 @@
 package plug.language.state_event.diagnosis.dsl.model;
 
 public class BinaryExp extends DiagnosisExp {
+    public DiagnosisExp getLhs() {
+        return lhs;
+    }
+
+    public DiagnosisExp getRhs() {
+        return rhs;
+    }
+
+    public Operator getOperator() {
+        return operator;
+    }
+
     DiagnosisExp lhs;
     DiagnosisExp rhs;
     public enum Operator {

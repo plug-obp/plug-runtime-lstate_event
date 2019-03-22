@@ -1,4 +1,4 @@
-package plug.language.state_event.diagnosis.dsl;
+package plug.language.state_event.diagnosis.dsl.parsing;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;

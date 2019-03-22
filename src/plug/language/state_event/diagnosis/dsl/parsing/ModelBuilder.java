@@ -1,4 +1,4 @@
-package plug.language.state_event.diagnosis.dsl;
+package plug.language.state_event.diagnosis.dsl.parsing;
 
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import plug.language.state_event.diagnosis.dsl.grammar.SEDiagBaseListener;
@@ -14,8 +14,8 @@ public class ModelBuilder extends SEDiagBaseListener implements TreeAnnotator {
     };
 
     @Override
-    public void exitValueExp(SEDiagParser.ValueExpContext ctx) {
-        setValue(ctx, new ValueExp(Integer.parseInt(ctx.NUMBER().getText())));
+    public void exitLiteralExp(SEDiagParser.LiteralExpContext ctx) {
+        setValue(ctx, new LiteralExp(Integer.parseInt(ctx.NUMBER().getText())));
     }
 
     @Override
@@ -44,9 +44,8 @@ public class ModelBuilder extends SEDiagBaseListener implements TreeAnnotator {
         String identifier = ctx.IDENTIFIER().getText();
         identifier = identifier.substring(1, identifier.length()-1);
 
-        VariableRef variableRef = new VariableRef(identifier);
         if (ctx.NEXT() != null) {
-            setValue(ctx, new NextExp(variableRef));
+            setValue(ctx, new NextVariableRef(identifier));
             return;
         }
         setValue(ctx, new VariableRef(identifier));

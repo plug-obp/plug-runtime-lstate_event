@@ -1,6 +1,18 @@
 package plug.language.state_event.diagnosis.dsl.model;
 
 public class ConditionalExp extends DiagnosisExp {
+    public DiagnosisExp getCondition() {
+        return condition;
+    }
+
+    public DiagnosisExp getTrueBranch() {
+        return trueBranch;
+    }
+
+    public DiagnosisExp getFalseBranch() {
+        return falseBranch;
+    }
+
     DiagnosisExp condition;
     DiagnosisExp trueBranch;
     DiagnosisExp falseBranch;
