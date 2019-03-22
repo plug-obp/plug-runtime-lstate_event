@@ -8,5 +8,6 @@ public class ClockRef extends Reference {
 
     public ClockRef(String name, int index) {
         super(name, index);
+        this.type = Type.BOOLEAN;
     }
 }

@@ -1,6 +1,6 @@
 package plug.language.state_event.diagnosis.dsl.model;
 
-public class Reference extends DiagnosisExp {
+public abstract class Reference extends DiagnosisExp {
     String name;
     int index;
 

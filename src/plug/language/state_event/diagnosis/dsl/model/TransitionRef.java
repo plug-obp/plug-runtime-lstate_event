@@ -10,5 +10,6 @@ public class TransitionRef extends Reference {
     }
     public TransitionRef(int index) {
         super(null, index);
+        type = Type.BOOLEAN;
     }
 }

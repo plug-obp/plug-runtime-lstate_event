@@ -7,5 +7,6 @@ public class VariableRef extends Reference {
 
     public VariableRef(String name, int index) {
         super(name, index);
+        type = Type.NUMBER;
     }
 }

@@ -12,4 +12,28 @@ public class UnaryExp extends DiagnosisExp {
         this.operator = operator;
         this.operand = operand;
     }
+
+    @Override
+    public Type getType() {
+        if (type == null || type == Type.UNKNOWN) {
+            Type oT = operand.getType();
+
+            switch (operator) {
+
+                case NOT:
+                    if (oT != Type.BOOLEAN) {
+                        throw new RuntimeException("NOT expects Boolean operand");
+                    }
+                    type = Type.BOOLEAN;
+                    break;
+                case MINUS:
+                    if (oT != Type.NUMBER) {
+                        throw new RuntimeException("MINUS expects Boolean operand");
+                    }
+                    type = Type.NUMBER;
+                    break;
+            }
+        }
+        return type;
+    }
 }

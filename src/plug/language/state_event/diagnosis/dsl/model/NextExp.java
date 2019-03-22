@@ -6,4 +6,9 @@ public class NextExp extends DiagnosisExp {
     public NextExp(VariableRef variableRef) {
         this.variableRef = variableRef;
     }
+
+    @Override
+    public Type getType() {
+        return variableRef.getType();
+    }
 }

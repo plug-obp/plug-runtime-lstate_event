@@ -5,5 +5,6 @@ public class ValueExp extends DiagnosisExp {
 
     public ValueExp(int value) {
         this.value = value;
+        type = Type.NUMBER;
     }
 }
