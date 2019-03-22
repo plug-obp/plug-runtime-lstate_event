@@ -7,23 +7,17 @@ WS : [ \r\t\n]+ -> skip ;
 
 expression :
           NUMBER                                                            #ValueExp
-		| clock                                                             #ReferenceExp
-		| transition									                    #ReferenceExp
-		| variable NEXT?                                                    #ReferenceExp
+		| 'clk' IDENTIFIER                                                  #ClockExp
+		| 't' IDENTIFIER									                #TransitionExp
+		| 'v' IDENTIFIER NEXT?                                              #VariableExp
 		| LPAREN expression RPAREN 									        #ParenExp
-		| operator=(NOT | PLUS | MINUS) expression        				    #UnaryExp
-        | expression operator=(MULT | DIV | MOD) expression                 #BinaryExp
+		| operator=(NOT | MINUS) expression        				            #UnaryExp
+        | expression operator=(MULT | MOD) expression                       #BinaryExp
         | expression operator=(PLUS | MINUS) expression                     #BinaryExp
         | expression operator=(LT | LTE | GT | GTE ) expression             #BinaryExp
         | expression operator=(EQ | NEQ) expression                         #BinaryExp
         | expression '?' expression ':' expression                          #ConditionalExp
 		;
-
-clock: 'clk' IDENTIFIER;
-variable: 'v' IDENTIFIER;
-transition: 't' IDENTIFIER;
-
-literal : NUMBER;
 
 LPAREN: '(';
 RPAREN: ')';
@@ -33,7 +27,6 @@ NOT: '!';
 PLUS: '+';
 MINUS: '-';
 MULT: '*';
-DIV: '/';
 MOD: '%';
 LT: '<';
 LTE: '<=';
