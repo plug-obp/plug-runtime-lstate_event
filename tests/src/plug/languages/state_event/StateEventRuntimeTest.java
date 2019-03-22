@@ -14,8 +14,6 @@ import plug.explorer.BFSExplorer;
 import plug.explorer.buchi.nested_dfs.BA_GaiserSchwoon_Iterative;
 import plug.language.buchikripke.runtime.KripkeBuchiProductSemantics;
 import plug.language.state_event.StateEventPlugin;
-import plug.language.state_event.diagnosis.AtomEvaluator;
-import plug.language.state_event.diagnosis.Predicate;
 import plug.language.state_event.runtime.StateEventConfiguration;
 import plug.language.state_event.runtime.StateEventTransitionRelation;
 import plug.statespace.SimpleStateSpaceManager;
@@ -398,13 +396,13 @@ public class StateEventRuntimeTest {
         //create the predicate
         Expression exp = Parser.parse(predicate);
         Evaluator evaluator = new Evaluator();
-        AtomEvaluator atomE = new AtomEvaluator();
-        atomE.program = ((StateEventTransitionRelation)runtime).program;
-        evaluator.addAtomEvaluator("sek", atomE);
-        evaluator.setDefaultEvaluator(atomE);
-        Predicate ipred = new Predicate(exp, evaluator, atomE);
-
-        pV.predicates.add(ipred);
+//        AtomEvaluator atomE = new AtomEvaluator();
+//        atomE.program = ((StateEventTransitionRelation)runtime).program;
+//        evaluator.addAtomEvaluator("sek", atomE);
+//        evaluator.setDefaultEvaluator(atomE);
+//        Predicate ipred = new Predicate(exp, evaluator, atomE);
+//
+//        pV.predicates.add(ipred);
 
         boolean ret[] = new boolean[] {true};
         pV.announcer.when(PredicateViolationEvent.class, (announcer, event) -> {
