@@ -8,7 +8,7 @@ import plug.language.state_event.model.StateEventModel;
 public class SEDiagnosisEvaluator implements DiagnosisModelVisitor<Value> {
     EvaluationEnvironment environment;
 
-    boolean evaluate(DiagnosisExp expression, StateEventModel model, EvaluationEnvironment environment) {
+    public boolean evaluate(DiagnosisExp expression, StateEventModel model, EvaluationEnvironment environment) {
         //link the expression with the model
         Linker linker = new Linker();
         linker.link(expression, model);
@@ -18,7 +18,7 @@ public class SEDiagnosisEvaluator implements DiagnosisModelVisitor<Value> {
         return evaluate(expression, environment);
     }
 
-    boolean evaluate(DiagnosisExp expression, EvaluationEnvironment environment) {
+    public boolean evaluate(DiagnosisExp expression, EvaluationEnvironment environment) {
         this.environment = environment;
         return (boolean)expression.accept(this).getValue();
     }
@@ -36,6 +36,9 @@ public class SEDiagnosisEvaluator implements DiagnosisModelVisitor<Value> {
 
     @Override
     public Value visit(ClockRef expr) {
+        if (environment.fireable == null) {
+            throw new RuntimeException("clock expressions are supported only by the State-Event solvers");
+        }
         for (int clki : environment.fireable.events) {
             if (clki == expr.getIndex()) {
                 return BooleanValue.tt;
@@ -46,6 +49,9 @@ public class SEDiagnosisEvaluator implements DiagnosisModelVisitor<Value> {
 
     @Override
     public Value visit(TransitionRef expr) {
+        if (environment.fireable == null) {
+            throw new RuntimeException("transition expressions are supported only by the State-Event solvers");
+        }
         return environment.fireable.id == expr.getIndex() ? BooleanValue.tt : BooleanValue.ff;
     }
 
@@ -56,6 +62,9 @@ public class SEDiagnosisEvaluator implements DiagnosisModelVisitor<Value> {
 
     @Override
     public Value visit(NextVariableRef expr) {
+        if (environment.target == null) {
+            throw new RuntimeException("next-state expressions are supported only by the State-Event solvers");
+        }
         return new NumberValue(environment.target.values[expr.getIndex()]);
     }
 

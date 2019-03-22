@@ -7,7 +7,7 @@ import plug.language.state_event.runtime.StateEventConfiguration;
 public class EvaluationEnvironment {
     StateEventModel model;
     StateEventTransition fireable;
-    StateEventPayload payload; class StateEventPayload {} //TODO: when payload added in FiredTransition it gets here
+    Object payload; class StateEventPayload {} //TODO: when payload added in FiredTransition it gets here
     StateEventConfiguration target;
 
     public EvaluationEnvironment(StateEventModel model) {
@@ -40,11 +40,11 @@ public class EvaluationEnvironment {
         this.fireable = fireable;
     }
 
-    public StateEventPayload getPayload() {
+    public Object getPayload() {
         return payload;
     }
 
-    public void setPayload(StateEventPayload payload) {
+    public void setPayload(Object payload) {
         this.payload = payload;
     }
 

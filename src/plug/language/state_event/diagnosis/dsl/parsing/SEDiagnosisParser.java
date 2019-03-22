@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 public class SEDiagnosisParser {
     private static SEDiagnosisParser instance = new SEDiagnosisParser();
 
-    public DiagnosisExp parse(String expression, Consumer<Exception> errorHandler) {
+    public static DiagnosisExp parse(String expression, Consumer<Exception> errorHandler) {
         ANTLRInputStream is = new ANTLRInputStream(expression);
         return instance.parse(is, DiagnosisExp.class, errorHandler);
     }
