@@ -39,7 +39,7 @@ public class SEAtomicPropositionsEvaluator implements IAtomicPropositionsEvaluat
     }
 
     DiagnosisExp parse(String code) {
-        DiagnosisExp expression = SEDiagnosisParser.parse(code, (e)->{});
+        DiagnosisExp expression = SEDiagnosisParser.parse(code, (e)->System.err.println(e.getMessage()));
         linker.link(expression, model);
         return expression;
     }

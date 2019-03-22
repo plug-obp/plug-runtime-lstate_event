@@ -1,5 +1,7 @@
 package plug.language.state_event.diagnosis.dsl.model;
 
+import plug.language.state_event.diagnosis.dsl.DiagnosisModelVisitor;
+
 public class ConditionalExp extends DiagnosisExp {
     public DiagnosisExp getCondition() {
         return condition;
@@ -39,5 +41,9 @@ public class ConditionalExp extends DiagnosisExp {
             return type = trueT;
         }
         return type;
+    }
+
+    public <T> T accept(DiagnosisModelVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

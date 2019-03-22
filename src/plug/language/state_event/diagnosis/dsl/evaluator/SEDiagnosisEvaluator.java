@@ -4,6 +4,7 @@ package plug.language.state_event.diagnosis.dsl.evaluator;
 import plug.language.state_event.diagnosis.dsl.DiagnosisModelVisitor;
 import plug.language.state_event.diagnosis.dsl.model.*;
 import plug.language.state_event.model.StateEventModel;
+import properties.PropositionalLogic.PropositionalLogicModel.Boolean;
 
 public class SEDiagnosisEvaluator implements DiagnosisModelVisitor<Value> {
     EvaluationEnvironment environment;
@@ -24,12 +25,6 @@ public class SEDiagnosisEvaluator implements DiagnosisModelVisitor<Value> {
     }
 
     @Override
-    public Value visit(DiagnosisExp expr) {
-        //nothing to do
-        return null;
-    }
-
-    @Override
     public Value visit(LiteralExp expr) {
         return new NumberValue(expr.getValue());
     }
@@ -39,6 +34,7 @@ public class SEDiagnosisEvaluator implements DiagnosisModelVisitor<Value> {
         if (environment.fireable == null) {
             throw new RuntimeException("clock expressions are supported only by the State-Event solvers");
         }
+        if (expr.getIndex() == -1) return BooleanValue.ff;
         for (int clki : environment.fireable.events) {
             if (clki == expr.getIndex()) {
                 return BooleanValue.tt;

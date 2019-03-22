@@ -1,5 +1,7 @@
 package plug.language.state_event.diagnosis.dsl.model;
 
+import plug.language.state_event.diagnosis.dsl.DiagnosisModelVisitor;
+
 public class ClockRef extends Reference {
 
     public ClockRef(String name) {
@@ -9,5 +11,9 @@ public class ClockRef extends Reference {
     public ClockRef(String name, int index) {
         super(name, index);
         this.type = Type.BOOLEAN;
+    }
+
+    public <T> T accept(DiagnosisModelVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

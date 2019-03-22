@@ -3,7 +3,6 @@ package plug.language.state_event.diagnosis.dsl;
 import plug.language.state_event.diagnosis.dsl.model.*;
 
 public interface DiagnosisModelVisitor<T> {
-    T visit(DiagnosisExp expr);
     T visit(LiteralExp expr);
     T visit(ClockRef expr);
     T visit(TransitionRef expr);

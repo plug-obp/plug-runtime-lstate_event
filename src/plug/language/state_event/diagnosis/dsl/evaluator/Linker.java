@@ -13,12 +13,6 @@ public class Linker implements DiagnosisModelVisitor<Boolean> {
     }
 
     @Override
-    public Boolean visit(DiagnosisExp expr) {
-        //nothing to do
-        return null;
-    }
-
-    @Override
     public Boolean visit(LiteralExp expr) {
         //nothing to do
         return true;
@@ -31,6 +25,7 @@ public class Linker implements DiagnosisModelVisitor<Boolean> {
             System.err.println("The clock " + expr.getName() + " is not present in the model");
             expr.setIndex(-1);
         }
+        expr.setIndex(index);
         return true;
     }
 
@@ -51,6 +46,7 @@ public class Linker implements DiagnosisModelVisitor<Boolean> {
             System.err.println("The variable " + expr.getName() + " is not present in the model");
             expr.setIndex(-1);
         }
+        expr.setIndex(index);
         return true;
     }
 

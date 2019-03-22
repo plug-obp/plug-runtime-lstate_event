@@ -1,5 +1,7 @@
 package plug.language.state_event.diagnosis.dsl.model;
 
+import plug.language.state_event.diagnosis.dsl.DiagnosisModelVisitor;
+
 public class UnaryExp extends DiagnosisExp {
     public DiagnosisExp getOperand() {
         return operand;
@@ -44,5 +46,9 @@ public class UnaryExp extends DiagnosisExp {
             }
         }
         return type;
+    }
+
+    public <T> T accept(DiagnosisModelVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

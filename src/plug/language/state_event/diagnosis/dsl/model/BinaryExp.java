@@ -1,5 +1,7 @@
 package plug.language.state_event.diagnosis.dsl.model;
 
+import plug.language.state_event.diagnosis.dsl.DiagnosisModelVisitor;
+
 public class BinaryExp extends DiagnosisExp {
     public DiagnosisExp getLhs() {
         return lhs;
@@ -24,6 +26,10 @@ public class BinaryExp extends DiagnosisExp {
         this.lhs = lhs;
         this.operator = operator;
         this.rhs = rhs;
+    }
+
+    public <T> T accept(DiagnosisModelVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

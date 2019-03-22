@@ -1,5 +1,7 @@
 package plug.language.state_event.diagnosis.dsl.model;
 
+import plug.language.state_event.diagnosis.dsl.DiagnosisModelVisitor;
+
 public abstract class Reference extends DiagnosisExp {
     public String getName() {
         return name;
