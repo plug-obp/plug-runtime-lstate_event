@@ -11,6 +11,7 @@ import plug.explorer.AbstractExplorer;
 import plug.explorer.BFSExplorer;
 import plug.explorer.buchi.nested_dfs.BA_GaiserSchwoon_Iterative;
 import plug.language.buchikripke.runtime.KripkeBuchiProductSemantics;
+import plug.language.buchikripke.sk_tba.SK_TBA_ProductSemantics;
 import plug.language.state_event.StateEventPlugin;
 import plug.language.state_event.runtime.StateEventTransitionRelation;
 import plug.statespace.SimpleStateSpaceManager;
@@ -135,6 +136,15 @@ public class StateEventRuntimeTest {
     public void testFairnessSimple0() throws Exception {
         String ltl = "pred = ![](|v[a] = 1| => (<> |v[b] = 1|))";
         verifyLTL("tests/resources/simple0.sek", ltl, true, 2, "simple0.tgf");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testTransitionSimple0() throws Exception {
+        String ltl = "pred = <>(|t[0]| or |t[1]|)";
+        verifyLTL("tests/resources/simple0.sek", ltl, false, 1, "simple0.tgf");
+
+        ltl = "pred = <>(|t[0]| or |t[2]|)";
+        verifyLTL("tests/resources/simple0.sek", ltl, false, 2, "simple0.tgf");
     }
 
     @Test
