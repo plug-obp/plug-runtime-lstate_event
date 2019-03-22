@@ -7,3 +7,5 @@ bin
 out
 .gradle
 build
+**/generated
+**/gen
