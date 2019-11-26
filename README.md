@@ -1,70 +1,26 @@
 ##### Purpose
-The Explicit runtime exist only for development and debug purposes.
+This module illustrates the components of an OBP2 language plugin.
 
-The programs are written in JSON and are mapped to ExplicitProgram using
-Jackson-databind.
+ 
+##### Syntax
 
-An example program :
+````
+nbConfigurations nbTransitions nbClocks nbConfigurationElements
+- clocks-names
+clock-name-1 ... clock-name-nbClocks
+- variable-names
+variable-name-1 ... variable-name-n // the list of variable names in the model
+- configurations
+//the list of configurations, one configuration corresponds to the values of all model variables for one state in the state-space
+conf-id value-1 ... value-n //a list of nbConfigurationElements
+...
+conf-id value-1 ... value-n //a list of nbConfigurationElements
 
-    {
-      "variables": {
-        "a": 0,
-        "b": 1,
-        "c": 2
-      },
-      "initial": 0,
-      "states": [
-        [1, 2, 3],
-        [3, 2, 1]
-      ],
-      "fanout": [
-        [0, 1],
-        [1]
-      ]
-    }
+- initial
+initial-configuration-ID
 
-The ``variables`` field define a map between variable names and their 
-index in the configuration.
-The ``initial`` field gives the index of the initial state in the states
-array.
-The ``states`` are an array of configurations. 
-Each configuration is an array of *int*.
-The ``fanout`` field is an array which at index **i** contains the fanout
-out the configuration **i**.
-
-##### A more complex example
-- In some situation we encounter models with multiple initial states.
-- When firing a transition multiple target configurations could be reached
-    - in the case of m-input/n-output synchronizations with side effects
-    
-An example representation for these cases :
-
-
-    {
-      "variables": {
-        "a": 0,
-        "b": 1,
-        "children": 2
-      },
-      "initial": [0, 2],
-      "states": [
-        [1, 2, 3],
-        [1, 3, 2],
-        [2, 1, 3],
-        [2, 3, 1],
-        [3, 1, 2],
-        [3, 2, 1],
-      ],
-      "transitions":[
-        [0, 1],
-        [3],
-        [2, 3],
-        [5],
-        [0, 4],
-      ],
-      "fanout": [
-        [0, 1],
-        [1],
-        [1, 2]
-      ]
-    }
+- transitions
+//the list of transitions
+source-conf-id <clock-id-1> ... <clock-id-i> target-conf-id
+...
+source-conf-id <clock-id-1> ... <clock-id-j> target-conf-id
