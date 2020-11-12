@@ -3,7 +3,7 @@ package plug.languages.state_event;
 import org.junit.Assert;
 import org.junit.Test;
 import plug.runtime.core.ILanguagePlugin;
-import plug.core.IRuntimeView;
+import plug.runtime.core.v0.IRuntimeView;
 import plug.runtime.core.ITransitionRelation;
 import plug.core.RuntimeDescription;
 import plug.events.PropertyEvent;
