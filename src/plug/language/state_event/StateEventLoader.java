@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
-import plug.core.ILanguageLoader;
+import plug.runtime.core.ILanguageLoader;
 import plug.language.state_event.diagnosis.SEAtomicPropositionsEvaluator;
 import plug.language.state_event.model.StateEventDenseReader;
 import plug.language.state_event.model.StateEventModel;

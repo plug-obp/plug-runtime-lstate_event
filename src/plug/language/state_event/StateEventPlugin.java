@@ -1,7 +1,7 @@
 package plug.language.state_event;
 
-import plug.core.ILanguageLoader;
-import plug.core.ILanguagePlugin;
+import plug.runtime.core.ILanguageLoader;
+import plug.runtime.core.ILanguagePlugin;
 import plug.core.IRuntimeView;
 import plug.language.state_event.runtime.StateEventTransitionRelation;
 

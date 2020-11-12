@@ -1,6 +1,6 @@
 package plug.language.state_event.diagnosis;
 
-import plug.core.IAtomicPropositionsEvaluator;
+import plug.runtime.core.IAtomicPropositionsEvaluator;
 import plug.core.IConfiguration;
 import plug.language.state_event.diagnosis.dsl.evaluator.EvaluationEnvironment;
 import plug.language.state_event.diagnosis.dsl.evaluator.Linker;

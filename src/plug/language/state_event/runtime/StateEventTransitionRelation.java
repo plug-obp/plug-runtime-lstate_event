@@ -1,6 +1,6 @@
 package plug.language.state_event.runtime;
 
-import plug.core.IAtomicPropositionsEvaluator;
+import plug.runtime.core.IAtomicPropositionsEvaluator;
 import plug.core.IConcurrentTransitionRelation;
 import plug.core.IFiredTransition;
 import plug.language.state_event.diagnosis.SEAtomicPropositionsEvaluator;

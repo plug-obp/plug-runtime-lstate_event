@@ -2,16 +2,15 @@ package plug.languages.state_event;
 
 import org.junit.Assert;
 import org.junit.Test;
-import plug.core.ILanguagePlugin;
+import plug.runtime.core.ILanguagePlugin;
 import plug.core.IRuntimeView;
-import plug.core.ITransitionRelation;
+import plug.runtime.core.ITransitionRelation;
 import plug.core.RuntimeDescription;
 import plug.events.PropertyEvent;
 import plug.explorer.AbstractExplorer;
 import plug.explorer.BFSExplorer;
 import plug.explorer.buchi.nested_dfs.BA_GaiserSchwoon_Iterative;
 import plug.language.buchikripke.runtime.KripkeBuchiProductSemantics;
-import plug.language.buchikripke.sk_tba.SK_TBA_ProductSemantics;
 import plug.language.state_event.StateEventPlugin;
 import plug.language.state_event.runtime.StateEventTransitionRelation;
 import plug.statespace.SimpleStateSpaceManager;
