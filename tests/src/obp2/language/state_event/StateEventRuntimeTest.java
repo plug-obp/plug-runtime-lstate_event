@@ -57,7 +57,7 @@ public class StateEventRuntimeTest {
     @Test
     public void petersonMutualExclusion() throws Exception {
         String ltl = "prop = []!(|v[p1.state] = 2| && |v[p2.state] = 2|)";
-        verifyLTL("tests/resources/peterson.sek", ltl, false, 11, null);
+        verifyLTL("tests/resources/peterson.sek", ltl, false, 10, null);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class StateEventRuntimeTest {
                 "\tp2cs\t\t= |v[p2.state] = 2|,\n" +
                 "\tp2GetsIn \t= [] (|v[p2.flag] = 1| => <> p2cs)\n" +
                 "in (p1GetsIn && p2GetsIn)";
-        verifyLTL("tests/resources/peterson.sek", ltl, false, 19, null);
+        verifyLTL("tests/resources/peterson.sek", ltl, false, 20, null);
     }
 
     @Test
@@ -80,14 +80,14 @@ public class StateEventRuntimeTest {
                 "\tp1cs \t= |v[p1.state] = 2|,\n" +
                 "\tp1SetsFlag = |v[p1.flag] = 1|,\n" +
                 "in ( ([] !p1SetsFlag) => ([] ! p1cs) )";
-        verifyLTL("tests/resources/peterson.sek", ltl, false, 4, null);
+        verifyLTL("tests/resources/peterson.sek", ltl, false, 6, null);
 
         ltl =
                 "prop = let\n" +
                 "\tp2cs \t= |v[p2.state] = 2|,\n" +
                 "\tp2SetsFlag = |v[p2.flag] = 1|,\n" +
                 "in ( ([] !p2SetsFlag) => ([] ! p2cs) )";
-        verifyLTL("tests/resources/peterson.sek", ltl, false, 5, null);
+        verifyLTL("tests/resources/peterson.sek", ltl, false, 7, null);
     }
 
 
@@ -95,14 +95,14 @@ public class StateEventRuntimeTest {
     public void peterson1Infoften() throws Exception {
         String ltl =
                 "prop = ! ([] <> |v[p1.state] = 2| )";
-        verifyLTL("tests/resources/peterson.sek", ltl, true, 10, "p1infoften.tgf");
+        verifyLTL("tests/resources/peterson.sek", ltl, true, 8, "p1infoften.tgf");
     }
 
     @Test
     public void peterson2Infoften() throws Exception {
         String ltl =
                 "prop = ! ([] <> |v[p2.state] = 2| )";
-        verifyLTL("tests/resources/peterson.sek", ltl, true, 8, "p2infoften.tgf");
+        verifyLTL("tests/resources/peterson.sek", ltl, true, 10, "p2infoften.tgf");
     }
 
     @Test
@@ -124,7 +124,7 @@ public class StateEventRuntimeTest {
         verifyLTL("tests/resources/simple0.sek", ltl, true, 2, "simple0.tgf");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testTransitionSimple0() throws Exception {
         String ltl = "prop = <>(|t[0]| or |t[1]|)";
         verifyLTL("tests/resources/simple0.sek", ltl, false, 1, "simple0.tgf");
@@ -136,13 +136,13 @@ public class StateEventRuntimeTest {
     @Test
     public void testFairnessSimple() throws Exception {
         String ltl = "prop = ![](|v[a] = 1| => (<> |v[b] = 1|))";
-        verifyLTL("tests/resources/simple.sek", ltl, true, 4, "simple.tgf");
+        verifyLTL("tests/resources/simple.sek", ltl, true, 3, "simple.tgf");
     }
 
     @Test
     public void testMutualExclusion() throws Exception {
         String ltl = "prop = [] ! (|v[alice.state] = 2| && |v[bob.state] = 3|)";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 12, "mutual_exclusion.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 11, "mutual_exclusion.tgf");
     }
 
     @Test
@@ -152,7 +152,7 @@ public class StateEventRuntimeTest {
                 "\taliceInCS \t= |v[alice.state] = 2|,\n" +
                 "\taliceSetsFlag = |v[alice.flag] = 1|,\n" +
                 "in  ( ([] !aliceSetsFlag) => ([] ! aliceInCS) )";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 4, "alice_idling.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 6, "alice_idling.tgf");
     }
 
     @Test
@@ -162,21 +162,21 @@ public class StateEventRuntimeTest {
                         "\tbobInCS \t= |v[bob.state] = 3|,\n" +
                         "\tbobSetsFlag = |v[bob.flag] = 1|,\n" +
                         "in ( ([] !bobSetsFlag) => ([] ! bobInCS) )";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 4, "bob_idling.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, false, 6, "bob_idling.tgf");
     }
 
     @Test
     public void testInfoftenAlice() throws Exception {
         String ltl =
                 "prop = ([] <> |v[alice.state] = 2| )";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 10, "alice_infoften.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 18, "alice_infoften.tgf");
     }
 
     @Test
     public void testInfoftenBob() throws Exception {
         String ltl =
                 "prop = ! ([] <> |v[bob.state] = 3| )";
-        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 12, "bob_infoften.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 11, "bob_infoften.tgf");
     }
 
     @Test
@@ -235,7 +235,7 @@ public class StateEventRuntimeTest {
                 "\tbobGetsIn \t= [] (|v[bob.flag] = 1| => <> bobInCS)\n" +
                 "in ! bobGetsIn";
 
-        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 4, "bob_fairness.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 3, "bob_fairness.tgf");
     }
 
     @Test
@@ -249,7 +249,7 @@ public class StateEventRuntimeTest {
                 "\tbobGetsIn \t= [] (|v[bob.flag] = 1| => <> bobInCS)\n" +
                 "in !(aliceGetsIn && bobGetsIn)";
 
-        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 4, "alice_and_bob_fairness.tgf");
+        verifyLTL("tests/resources/alice-bob.sek", ltl, true, 3, "alice_and_bob_fairness.tgf");
     }
 
     private void verifyLTL(String fileName, String ltl, boolean hasAcceptanceCycle, int expectedSize, String tgfPath) throws Exception {
