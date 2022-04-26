@@ -1,0 +1,35 @@
+t1 = | t[0] |
+t2 = | t[1] |
+p1 = states S0, S1, S2;
+    initial S0;
+    accept S1;
+    S0 0 [ t1   ] S1;
+    S0 1 [ true ] S0;
+    S1 0 [ t2   ] S2;
+    S1 1 [ true ] S1;
+    S2 0 [ t1   ] S1;
+    S2 1 [ true ] S2 
+
+p2 = states S0, S1;
+    initial S0;
+    accept S1;
+    S0 0 [ t1   ] S1;
+    S0 1 [ true ] S0;
+    S1 0 [ t2   ] S0;
+    S1 1 [ true ] S1
+
+p3ltl = [](t1 -> <> t2)
+
+p3 = states S0, S1;
+    initial S0;
+    accept S1;
+    S0 0 [ t1 and !t2 ] S1;
+    S0 0 [ true ] S0;
+    S1 0 [ !t2  ] S1    
+
+p4 = states S0, S1;
+    initial S0;
+    accept S1;
+    S0 0 [ t1 ] S1;
+    S0 0 [ true ] S0;
+    S1 0 [ !t2  ] S1    
