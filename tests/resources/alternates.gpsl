@@ -1,5 +1,5 @@
-t1 = | t[0] |
-t2 = | t[1] |
+t1 = | clk[t1] |
+t2 = | clk[t2] |
 p1 = states S0, S1, S2;
     initial S0;
     accept S1;
@@ -33,3 +33,35 @@ p4 = states S0, S1;
     S0 0 [ t1 ] S1;
     S0 0 [ true ] S0;
     S1 0 [ !t2  ] S1    
+
+p5 = states S0, S1, S2;
+    initial S0;
+    accept S1, S2;
+    S0 0 [ t1 ] S1;
+    S0 0 [ true ] S0;
+    S1 0 [ !t2  ] S1;
+    S1 0 [ t1 ] S2;
+    S2 0 [ true ] S2
+
+// e future constr
+p6 = states S0, S1, S2;
+    initial S0;
+    accept S1;
+    S0 0 [ t1 ] S1;
+    S0 0 [ true ] S0;
+    S1 0 [ t1 ] S1;
+    S1 0 [ !t2  ] S1;
+    S1 0 [ t2 ] S2
+
+// r past constr
+p7 = states S0, S1, S2, S3;
+    initial S0;
+    accept S1, S3;
+    S0 0 [ t1 ] S1;
+    S0 0 [ true ] S0;
+    S1 0 [ !t2 and !t1  ] S1;
+    S1 0 [ t2 ] S2;
+    S1 0 [ t1 ] S3;
+    S3 0 [ true ] S3
+
+    
